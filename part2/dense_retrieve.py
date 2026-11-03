@@ -130,6 +130,9 @@ def main():
     else:
         device = "cpu"
     print(f"Using device: {device}")
+    if device == "cpu" and not args.limit:
+        raise SystemExit("No GPU found. The full corpus would take days on the CPU. "
+                         "Fix torch/CUDA first (see part2/requirements.txt) or use --limit to test.")
     model = SentenceTransformer(args.model, device=device)
     model.max_seq_length = args.max_seq_length
 
