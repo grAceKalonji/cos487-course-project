@@ -1,0 +1,9 @@
+# Part 2 (neural retrieval). Versions follow the course starter scripts.
+sentence-transformers==5.1.2
+transformers==4.51.3
+huggingface-hub==0.36.2
+accelerate==1.2.1
+datasets==3.6.0
+torch
+tqdm
+matplotlib
