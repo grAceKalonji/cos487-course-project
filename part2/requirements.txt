@@ -4,6 +4,10 @@ transformers==4.51.3
 huggingface-hub==0.36.2
 accelerate==1.2.1
 datasets==3.6.0
+# torch: on the CS GPU servers (NVIDIA driver = CUDA 12.6) install the CUDA 12.6 build FIRST:
+#   python -m pip install "torch==2.7.1" --index-url https://download.pytorch.org/whl/cu126
+# A plain "pip install torch" pulls a build for a newer CUDA and silently falls back to the CPU.
 torch
 tqdm
 matplotlib
+ranx>=0.3
