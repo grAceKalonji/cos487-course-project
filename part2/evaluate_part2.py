@@ -79,14 +79,14 @@ def evaluate_level(level, runs, qrels, stat_test="student", max_p=0.05):
         rep = compare(q, ranx_runs, metrics=metrics, stat_test=stat_test, max_p=max_p).to_dict()
         for n in names:
             for m in metrics:
-                result["scores"][n][f"{m} ({variant})"] = rep[n]["scores"][m]
+                result["scores"][n][f"{m} ({variant})"] = float(rep[n]["scores"][m])
         for a, b in combinations(names, 2):
             for m in metrics:
-                p = rep[a]["comparisons"][b][m]
+                p = float(rep[a]["comparisons"][b][m])   # numpy number -> plain Python float
                 wtl = rep[a]["win_tie_loss"][b][m]
                 sa, sb = rep[a]["scores"][m], rep[b]["scores"][m]
                 result["pairs"].setdefault(f"{a} vs {b}", {})[f"{m} ({variant})"] = {
-                    "p_value": p, "significant": p < max_p,
+                    "p_value": p, "significant": bool(p < max_p),
                     "better": (a if sa > sb else b) if p < max_p else "none",
                     "win_tie_loss": f'{wtl["W"]}/{wtl["T"]}/{wtl["L"]}'}
     return result

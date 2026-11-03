@@ -1,3 +1,4 @@
+import json
 import tempfile
 import unittest
 from pathlib import Path
@@ -37,6 +38,7 @@ class TestEvaluatePart2(unittest.TestCase):
             self.assertAlmostEqual(res["scores"]["good"]["mrr (full)"], 1.0)
             pair = next(iter(res["pairs"].values()))
             self.assertIn("p_value", pair["mrr (any)"])
+            json.dumps(res)                                    # must be saveable (numpy types broke this once)
 
             pq = per_query(runs, QRELS)
             self.assertAlmostEqual(pq["bad"]["2001"]["mrr"], 0.5)
