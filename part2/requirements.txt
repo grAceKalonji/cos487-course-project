@@ -11,3 +11,4 @@ torch
 tqdm
 matplotlib
 ranx>=0.3
+scipy
