@@ -106,7 +106,8 @@ def main():
     p.add_argument("--split", default="study", choices=["study", "test"])
     p.add_argument("--run_tag", default="sparse")
     p.add_argument("--top_k", type=int, default=100)
-    p.add_argument("--para_pool", type=int, default=1000, help="paragraphs retrieved before ranking papers")
+    p.add_argument("--para_pool", type=int, default=3000,
+                   help="paragraphs retrieved before ranking papers (enough to reach 100 distinct papers)")
     p.add_argument("--max_seq_length", type=int, default=512)
     p.add_argument("--max_active_dims", type=int, default=256,
                    help="keep at most this many non-zero words per paragraph (limits memory)")

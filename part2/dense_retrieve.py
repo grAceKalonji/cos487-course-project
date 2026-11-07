@@ -77,7 +77,7 @@ def paragraph_run(query_ids, scores, idx, para_ids, k=100):
 def paper_run(query_ids, scores, idx, para_ids, k=100):
     """Paper score = score of its best paragraph ("find the needle, credit the haystack").
 
-    Uses every retrieved paragraph (we retrieve 1,000 per query) so there are
+    Uses every retrieved paragraph (we retrieve 3,000 per query by default) so there are
     enough distinct papers to fill the top k.
     """
     run = {}
@@ -88,6 +88,8 @@ def paper_run(query_ids, scores, idx, para_ids, k=100):
             if pid not in best:          # results arrive best-first, so the first hit is the max
                 best[pid] = float(s)
         run[qid] = sorted(best.items(), key=lambda x: -x[1])[:k]
+        if len(run[qid]) < k:
+            print(f"  warning: query {qid} reached only {len(run[qid])} papers; raise --para_pool")
     return run
 
 
@@ -115,7 +117,8 @@ def main():
     p.add_argument("--split", default="study", choices=["study", "test"])
     p.add_argument("--run_tag", default="dense", help="dense, or MODEL1/MODEL2 for optional runs")
     p.add_argument("--top_k", type=int, default=100)
-    p.add_argument("--para_pool", type=int, default=1000, help="paragraphs retrieved before ranking papers")
+    p.add_argument("--para_pool", type=int, default=3000,
+                   help="paragraphs retrieved before ranking papers (enough to reach 100 distinct papers)")
     p.add_argument("--max_seq_length", type=int, default=512)
     p.add_argument("--batch_size", type=int, default=128)
     p.add_argument("--limit", type=int, default=0, help="only the first N paragraphs (testing)")
